@@ -1,5 +1,5 @@
 import { Button, Card, TextField } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from '../redux/users/operators';
@@ -10,15 +10,20 @@ export default function Signup() {
     email: '',
     password: '',
   });
-  const nav = useNavigate();
+  
   const dispatch = useDispatch();
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(register(formData)).then(() => {
-      // if logged in was good then continue
-      nav('/');
-    });
-  }
+     const form = e.currentTarget;
+    dispatch(
+      register({
+        name: form.elements.name.value,
+        email: form.elements.email.value,
+        password: form.elements.password.value,
+      }),
+    );
+    form.reset();
+  };
   return (
     <div
       style={{
